@@ -1,0 +1,66 @@
+===Cybersecurity course===
+
+====Lesson 1: Introduction====
+
+Classifying threats:
+
+STRIDE - Threat model:
+* Spoofing: Someone illegally accessing a system using another user's authentication information.
+* Tampering: Detects unauthorized changes made to persistent data.
+* Repudiation: Trace user operations to provide evidence of what has happened in case of a breach.
+* Information Disclosure: Exposure of information to unauthorized individuals.
+* Denial of Service: The server or service is made temporarily unaivalable.
+* Elevation of Privilege: An unprivileged user finds a way to gain sufficient privileges to compromise the system.
+
+DREAD - Risk assessment model:
+* Damage
+* Reproducibility
+* Exploitability
+* Affected Users
+* Discoverability
+
+Top 10 flaws (src: https://www.computer.org/cms/CYBSI/docs/Top-10-Flaws.pdf):
+
+*Offload security functions from server to client.
+**When untrusted clients send data to yout system or perform a computation on its behalf, the data sent must be assumed to be compormised until proven otherwise.
+**Design a software system under the ssumption that components running on any platform whose integrity can't be attested are inherently non trustable.
+**Protect sensitive information or intellectual property with obfuscation or anti-debugging, don't use the same shared secret or other cryptographic material on all the clients.
+** Make sure all data received from an untrusted client are validated before processing.
+** Be sure to consider the context where code will be executed, where data will go, and where data entering 
+your system comes from.
+
+*Use an authentiction mechanism that cannot be bypassed or tampered with
+**Prevent an entity from gaining access to a system or service qithout first authenticating. Once a user 
+has been authenticated, a securely designed system should also prevent that user from changing identity without re-authentication. 
+**Multi-factor authentication: Require multiple distinct factors to prove your identity.
+**Credentials must not be easy to forge (e.g. a token created from the user name and more evident information).
+**Authentication system should provide a mechanism requiring re-authentication after a period of inactivity or prior to critical operations.
+**Asking users to frequently re-enter their password can be damaging to security, as it trains people’s muscle memory to enter their password every time they see a prompt and sets them up as easy phishing targets.
+**Correctly store passwords and password associations to users. 
+**It's most preferable to have a single method or component responsible for authenticating users, serving as a "choke point" to avoid potential bypass.
+
+*Authorize after you authenticate
+**Authorization depends not only on the privileges associated wth an authenticated user, but also on the context of the request. Also, the time of the request and the location of the requesting user may both need to be taken into account.
+**For particularly sensistive operations, authorization may need to invoke authentication.
+**As a common infrastructure should be responsible for authenticating users, so too should common infrastructure be re-used for conducting authorization checks.
+
+*Strictly separate data and control instructions, never proces control instructions received from untrusted sources.
+**Lack of strict separation between data and code often leads to untrusted data controlling the execution flow of a software system.
+**If software assembles a string in a parseable language by combining untrusted data with trusted control instructions, injection vulnerabilities arise if the untrusted data are insufficiently validated or escaped. In that situation, an attacker may be able to supply data crafted such that when the resulting expression is processed, parts of the data are parsed and interpreted as control (rather than uninterpreted data, as intended).
+**Examples of such vulnerabilities include SQL query injection, cross-site JavaScript injection, and shell command injection.
+**At lower levels, software platforms can utilize 
+hardware capabilities to enforce separation of 
+code and data (e.g. memory access permissions marking memory that only contains non-executable data, and executable data marked as immutable at runtime).
+**When designing languages, compilers, virtual 
+machines, parsers and related pieces of infrastructure, consider control-flow integrity and segregation of control and potentially untrusted data as important design goals. 
+**When designing APIs (both general-purpose or public interfaces as well as those that are domain or application-specific), avoid exposing methods or endpoints that consume strings in languages that embed both control and data. 
+**When designing applications that rely on existing APIs, avoid APIs that mingle data and control information in their parameters, especially when those parameters are strings. If there is no choice, encapsulate the injection-prone interface and expose its functionality through a higher level API enforcing strict segregation between control statements and potentially untrusted data.
+**Validate data as full as possible before transform it into code:
+***Eval functions: Could let the attacker execute arbitrary code.
+***Query languages: Avoid injection vulnerabilities and code that constructs queries based on ad-hoc string concatenation.
+***Exposed reflection: Language that allows reflectively inspect and manipulate objects could be vulnerable (e.g. to marshall and unmarshall objects, or invoke methods). Consider alternatives like code-generation at build/compile time, etc.
+
+*Define an approach that ensures all data are explicitily validated
+**Design software systems to ensure that comprehensive data validation actually takes place and all assumptions about data have been validated when they are used.
+**Design or use centralized validation mechanisms to ensure all data entering a system are appropiatelly validated. 
+
