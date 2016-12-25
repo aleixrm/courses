@@ -63,4 +63,5 @@ machines, parsers and related pieces of infrastructure, consider control-flow in
 *Define an approach that ensures all data are explicitily validated
 **Design software systems to ensure that comprehensive data validation actually takes place and all assumptions about data have been validated when they are used.
 **Design or use centralized validation mechanisms to ensure all data entering a system are appropiatelly validated. 
+**Transform data into a canonical form before performing actual syntactic or semantic validation.
 
