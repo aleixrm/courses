@@ -30,7 +30,7 @@ Top 10 flaws (src: https://www.computer.org/cms/CYBSI/docs/Top-10-Flaws.pdf):
 your system comes from.
 
 *Use an authentiction mechanism that cannot be bypassed or tampered with
-**Prevent an entity from gaining access to a system or service qithout first authenticating. Once a user 
+**Prevent an entity from gaining access to a system or service without first authenticating. Once a user 
 has been authenticated, a securely designed system should also prevent that user from changing identity without re-authentication. 
 **Multi-factor authentication: Require multiple distinct factors to prove your identity.
 **Credentials must not be easy to forge (e.g. a token created from the user name and more evident information).
@@ -63,5 +63,26 @@ machines, parsers and related pieces of infrastructure, consider control-flow in
 *Define an approach that ensures all data are explicitily validated
 **Design software systems to ensure that comprehensive data validation actually takes place and all assumptions about data have been validated when they are used.
 **Design or use centralized validation mechanisms to ensure all data entering a system are appropiatelly validated. 
-**Transform data into a canonical form before performing actual syntactic or semantic validation.
+**Transform data into a canonical form before performing actual syntactic or semantic validation, ensuring validation cannot be bypassed by supplying inputs that are encoded in a transport encoding or in a possibly invalid non-canonical form.
+**Use common libraries of validation primitives, e.g. well formed URLs, email addresses, etc. Whitelisting validation better than blacklisting validation.
+**Input validation requirements are often state-dependent, so design the protocol implementation's input validation component to be itself state-aware.
+**Explicitly re-validate assumptions "nearby" code that relies on them. Liberal use of precondition checks in the entry points of software modules and components is highly recommended as re-validation for entries from upper layers.
+***Protects against vulnerabilities that arise from insufficient input validation in a higher layer or from additional data-flows that were not considered during the initial security design.
+***Permits local reasoning about the correctness of a component.
+**Use implementatnion-language-level types to capture assumptions about data validity.
+
+*Use cryptography correctly
+**Avoid to roll own cryptographic algorithms or implementations. Use standard algorithms and libraries preferably.
+**Misuse of libraries and algorithms. Choose the right algorithm and library for your needs.
+**Poor key management. Avoid hard-coding keys on software, don't fail to allow for the revocation and/or rotation of keys, don't use weak cryptographic keys and weak distribution mechanisms.
+**Use of not random randomness. Don't be confused between statistical randomness and cryptographic randomnes and don't re-use the random numbers.
+**Failure to centralize cryptography. Cryptographic algorithms often don't interact nicely.
+**Failure to allow for algorithm adaptation and evolution. Make your system flexible and allow future changes.
+
+*Identify sensitive data and how they should be handled.
+**Sensitive data are not always user-generated, also can be computed from scratch, coming from external sensors, cryptographic material and Personally Idenitifiable Information (PII). Creating a policy that expicitly identifies different levels of classification is the first step in handling data appropiately.
+**Not all data protection requirements are equal: for some data confidentiality is critical, for other types availability is critical, in other cases integrity is most important, etc.
+**A designer should also consider include access control mechanisms, cryptography to preserve data confidentiality or integrity, and redundancy and backups to preserve data availability.
+**As data sets transit between systems, they may cross multiple trust boundaries, so identify these boundaries and rectify them with data protection policies is an essential design activity.
+**Revisite and revise data protection policies and their design implications.
 
