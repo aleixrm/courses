@@ -29,7 +29,7 @@ Top 10 flaws (src: https://www.computer.org/cms/CYBSI/docs/Top-10-Flaws.pdf):
 ** Be sure to consider the context where code will be executed, where data will go, and where data entering 
 your system comes from.
 
-*Use an authentiction mechanism that cannot be bypassed or tampered with
+*Use an authentiction mechanism that cannot be bypassed or tampered with.
 **Prevent an entity from gaining access to a system or service without first authenticating. Once a user 
 has been authenticated, a securely designed system should also prevent that user from changing identity without re-authentication. 
 **Multi-factor authentication: Require multiple distinct factors to prove your identity.
@@ -86,3 +86,42 @@ machines, parsers and related pieces of infrastructure, consider control-flow in
 **As data sets transit between systems, they may cross multiple trust boundaries, so identify these boundaries and rectify them with data protection policies is an essential design activity.
 **Revisite and revise data protection policies and their design implications.
 
+*Always consider the users
+**All security-related mechanisms must be designed in a manner that makes it easy to deploy, configure, use and update the system securely.
+**Take in consideration the users physical abilities, cultural biases, habits and idiosyncrasies of the intended users of the systems, it will impact its overall security stance.
+**Assumptions about the sophistication or security knowledge of users are bound to be incorrect some percentages of the time.
+**Take into account that authenticated and authorized users can also be attackers.
+**Secure by default (make the easiest and most common usage scenario secure).
+**Consider all relevant stakeholders (also collateral damage to other users data security).
+
+*Understand how integrating external components changes your attack surface.
+**This involves external or third party software in form of binaries, libraries, source code and APIs.
+**Whenever possible, reuse tried-and-true pieces of previously tested and validated software.
+**The system's threat model is a representation of the security posture of the system when all possible threats are taken into consideration, their mitigations established, and the vulnerabilities identified.
+**Assume that incoming external components are not be trusted until appropiate security controls have been applied, in order to align the component's attack surface and security policy with ones that meet your requirements.
+**Isolate external components as much as your required functionality permits (using containers, sandboxes, and drop privileges before entering uncontrolled code).
+**Configure external components to enable only the functionality you intend to use.
+**Consider how the not intended to use functionality changes your security posture and increases the security you must implement to account the change.
+**If the security of the external component can not be configured to be aligned to our security goals, find another library or document the risk acceptance and inform stakeholders.
+**Validate provenance and integrity of the external component using cryptographically trusted hashes, signatures, etc. and verify the downloaded source.
+**Follow sources that tracks or publishes security-related information regarding the consumed external resources (mailing lists, VCE databases, etc.)
+**Maintain and inform of an up-to-date list of consumed external components, and check if those are the latest know-secure versions of each software.
+**Authenticate data flows between your system and external components.
+**Verify and understand the default configuration of the external component.
+**Document everything.
+**Design for flexibility, in order to make the external components easily replaceable.
+
+*Be flexible when considering future changes to objects and actors.
+**Software security must be designed for change, consider the security implications for future changes to objects and actors.
+**Any deployed system can eventually come under attack and potentially be compromised.
+**The environment and conditions under whiche the system exists will also change.
+**Design for secure updates. It is easier to upgrade small pieces of a system than huge blobs, ensuring that the security implications of the upgrade are well understood and controlled. Verify the integrity and provenance of upgrade package.
+**Design for security properties changing over time; for example, when code is updated. 
+**Design with the ability to isolate or toggle functionality. It should be possible to turn off compromised parts of the system, or to turn on performance-affecting mitigations, should the need arise.
+**Design for changes to objects intended to be kept secret. The system should be prepared to have secrets replaced at any time and at all levels of the system.
+***Secure way for users to change their own passwords, including disallowing the change until the old password has been succesfully presented by the user.
+***Carefully considering any kind of "password recovery" mechanisme (e.g. reset a password instead of provide the password in clear text).
+***Secure and efficient way to replace certificates, SSH keys, etc proviing clear and explicit logs of those events in a forensically verifiable way.
+***Understanding how the key change affects data stored at rest.
+**Design for changes in the security properties of components beyond your control. An external component's security properties or related characteristics may change over time. In these cases it is important to design "agility", the capability to change layers and alogirthms, as needed into the system.
+**Design for changes to entitlements. The system must have a way to revoke access to areas when a user no longer has a need to access them. The access to critical system components should be regularly reviewed to confirm that those individuals with access still require that level of access.
